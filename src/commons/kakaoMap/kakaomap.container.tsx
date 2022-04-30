@@ -1,8 +1,37 @@
 // 카카오지도
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import KakaoMapUI from './kakaomap.presenter'
 
 export default function KakaoMapPage(){
+
+  const [addressInputs, setAddressInputs] = useState({
+    address:"",
+    zipcode:"",
+    addressDetail:""
+  });
+
+  // 모달 주소입력
+  const [isOpen, setIsOpen] = useState(false);
+
+  const showModal = () => {
+    setIsOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsOpen(false);
+  };
+
+  const handleComplete = (data:any) =>{
+    setIsOpen(false);
+    setAddressInputs({...addressInputs, address:data.address, zipcode:data.zonecode})
+  }
+
+
     useEffect(()=>{
 
     const script = document.createElement("script") // <script></script>
@@ -66,12 +95,13 @@ export default function KakaoMapPage(){
     },[])
 
     return (
-      <div>
-        <div id="clickLatlng"></div>
-        <div>
-          <div id="map" style={{ width: "500px", height: "400px" }}></div>
-        </div>
-      </div>
+     <KakaoMapUI 
+        isOpen={isOpen}
+        showModal={showModal}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+        handleComplete={handleComplete}
+        />
     );
 }
 

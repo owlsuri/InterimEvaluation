@@ -19,11 +19,7 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 `
-export const BlockCon=styled.div`
-display: flex;
-justify-content: space-between;
-width: 1250px;
-`
+
 export const BlockLo=styled.div`
 display: flex;
 
@@ -38,15 +34,10 @@ font-weight: 600;
 export const Label1=styled.div`
 font-size: 20px;
 font-weight: 600;
-padding-left:7px ;
-`
-export const LocationBox= styled.div`
-display: flex;
-margin-bottom: 30px;
-padding-top: 20px;
+padding-bottom: 380px;
 `
 export const Location= styled.div`
-margin-right: 20px;
+
 `
 export const Btag= styled.div`
 display: flex;
@@ -54,10 +45,10 @@ display: flex;
 export const Tags= styled.div`
 font-size: 17px;
 display: flex;
-padding-left: 150px;
+padding-left: 190px;
 `
 export const Address= styled.input`
-width: 705px;
+width: 570px;
 height: 56px;
 border: none;
 padding: 10px;
@@ -69,7 +60,7 @@ export const AddressBox= styled.div`
 margin-left: 30px;
 `
 export const TagInput= styled.input`
-    width: 800px;
+    width: 1117px;
     height: 56px;
     border: none;
     padding: 10px;

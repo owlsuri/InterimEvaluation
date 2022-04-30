@@ -50,7 +50,7 @@ declare const window: typeof globalThis & {
     IMP:  any
 }
 
-export default function PointPaymentPage(){
+export default function PointPaymentPage(props){
 
     const router = useRouter()
 

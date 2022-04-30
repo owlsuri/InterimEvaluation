@@ -18,12 +18,7 @@ export default function MarketWrite(props){
     const router = useRouter() 
 
     const [fileUrls, setFileUrls] = useState(["", "", ""]);
-    
-    const [addressInputs, setAddressInputs] = useState({
-    address:"",
-    zipcode:"",
-    addressDetail:""
-  });
+  
 
     const [createUseditem] = useMutation(CREATE_USED_ITEM)
     const [updateUseditem] = useMutation(UPDATE_USED_ITEM);
@@ -47,26 +42,6 @@ export default function MarketWrite(props){
         newFileUrls[index] = fileUrl;
         setFileUrls(newFileUrls);
     };
-
-    // 모달 주소입력
-  const [isOpen, setIsOpen] = useState(false);
-
-  const showModal = () => {
-    setIsOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsOpen(false);
-  };
-
-  const handleComplete = (data:any) =>{
-    setIsOpen(false);
-    setAddressInputs({...addressInputs, address:data.address, zipcode:data.zonecode})
-  }
 
 
     // 해시태그
@@ -198,11 +173,6 @@ export default function MarketWrite(props){
         reset={reset}
         onClickCancel={onClickCancel}
         onClickUpdate={onClickUpdate}
-        isOpen={isOpen}
-        showModal={showModal}
-        handleOk={handleOk}
-        handleCancel={handleCancel}
-        handleComplete={handleComplete}
         />
     )
 }

@@ -18,11 +18,12 @@ export default function MarketListUI(props){
          localStorage.getItem(getDate(new Date())) || "[]"
        );
        console.log(baskets)
+         
+         const temp = baskets.filter((basketEl) => basketEl._id === el._id);
+             if (temp.length === 1) {
+               return;
+             }
 
-       const temp = baskets.filter((basketEl) => basketEl._id === el._id);
-           if (temp.length === 1) {
-             return;
-           }
     
        // 담기
         const { __typename, ...newEl } = el;

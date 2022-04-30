@@ -7,6 +7,8 @@ import { useEffect, useState } from "react"
 import PointPaymentPage from "../../../componunts/Point/inedex"
 import "antd/dist/antd.css";
 import Head from 'next/head'
+import { useRecoilState } from "recoil"
+import { accessTokenState } from "../../store"
 
 const Wrapper = styled.div`
     display: flex;
@@ -147,10 +149,6 @@ export default function LayoutHeader(){
         router.push('/join')
     }
 
-    const onClickLogOut = () => {
-        
-    }
-
     // 충전모달
     const onToggleModal = () => {
         setIsOpen(true)
@@ -219,6 +217,13 @@ export default function LayoutHeader(){
       });
     }
 
+    const [ accessToken, setAccessToken ] = useRecoilState(accessTokenState)
+   
+    const onClickLogOut = () => {
+        localStorage.removeItem("accessToken")
+        setAccessToken("")
+    }
+
 
 
     return(
@@ -243,7 +248,7 @@ export default function LayoutHeader(){
             <ChargeBtn onClick={requestPay}>충전하기</ChargeBtn>
           </Modal>
         )}
-            <Label>{data?.fetchUserLoggedIn.email ? (
+            <Label>{ accessToken ? (
           <Container>
             <div>
               {data?.fetchUserLoggedIn.name} 님의 포인트{" "}
@@ -253,11 +258,13 @@ export default function LayoutHeader(){
             <Charge onClick={onClickLogOut}>로그아웃</Charge>
           </Container>
         ) : (
-          <>
+          <Container>
             <Charge onClick={onClicktoLogin}>로그인</Charge>
             <Charge onClick={onClicktoJoin}>회원가입</Charge>
-          </>
-        )}</Label>
+          </Container> 
+        )}
+        
+        </Label>
                 <Basket>
                     <BLabel>장바구니</BLabel>
                     <BasketLength>{basketItems.length}</BasketLength>

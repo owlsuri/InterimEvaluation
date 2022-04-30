@@ -4,9 +4,11 @@ import Uploads01 from '../../commons/uploads/01/Uploads01.container';
 import * as S from './write.styles'
 import {v4 as uuidv4} from 'uuid'
 import KakaoMapPage from '../../commons/kakaoMap/kakaomap.container';
-
+import { Modal } from 'antd';
+import DaumPostcode from 'react-daum-postcode';
 
 export default function MarketWriteUI(props){
+    
         useEffect(() => {
         props.reset({ contents: props.data?.fetchUseditem.contents });
     }, [props.data]);
@@ -65,13 +67,40 @@ export default function MarketWriteUI(props){
                 {props.hashArr.map((el: any, idx: any) => (
                 <div key={idx}>{el}</div>
                 ))}</S.Tags>            
-            <S.Block>
-                <S.Label>거래위치</S.Label>
+            
+                <S.Label2>거래위치</S.Label2>
+
+                {props.isOpen && (<Modal title="주소를 검색해주세요" 
+                    visible={true} onOk={props.handleOk}  
+                    onCancel={props.handleCancel}>
+                <DaumPostcode onComplete={props.handleComplete}/>
+            </Modal>
+            )}
+
             <S.Location>
-                <KakaoMapPage />
-            </S.Location>
-           </S.Block>
+                <KakaoMapPage 
+                address={props.address} 
+                zipcode={props.zipcode}
+                onChangeAddressDetail={props.onChangeAddressDetail}
+                />
+            
+
+            <S.AddressBox>
+                    <div>
+                        <S.Label>주소</S.Label>
+                        <S.ZipBox>
+                        <S.Zip type="text" id="zipcode"
+                          value={props.zipcode} readOnly/>
+                        <S.ZipBtn type="button" onClick={props.showModal}>우편번호 검색</S.ZipBtn>
+                        </S.ZipBox>
+                        <S.Address type="text" id="address" value={props.address || ""} readOnly/>
+                        <S.Address type="text" id="addressDetail" onChange={props.onChangeAddressInputs}/>
+                    </div>
+                </S.AddressBox>
+             </S.Location>
+
                 <S.Label>사진첨부</S.Label>
+                <S.Location>
                           {props.fileUrls.map((el, index) => (
                             <Uploads01
                             type="button"
@@ -81,6 +110,7 @@ export default function MarketWriteUI(props){
                             onChangeFileUrls={props.onChangeFileUrls}
                             />
                         ))}
+                </S.Location>
             <S.BtnBox>
                 <S.SubmitBtn onClick={props.onClickSubmit}> {props.isEdit ? "수정" : "등록"}</S.SubmitBtn>
                 <S.CancelBtn onClick={props.onClickCancel}>취소</S.CancelBtn>

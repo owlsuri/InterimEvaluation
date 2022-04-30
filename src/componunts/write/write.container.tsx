@@ -17,19 +17,46 @@ export default function MarketWrite(props){
     useAuth()
     const router = useRouter() 
 
-    const [fileUrls, setFileUrls] = useState(["", "", ""]);
-  
-
     const [createUseditem] = useMutation(CREATE_USED_ITEM)
     const [updateUseditem] = useMutation(UPDATE_USED_ITEM);
     const { data } = useQuery(FETCH_USED_ITEM,{
     variables:{ useditemId: router.query.useditemId}
   });
-
+  
     const { register, handleSubmit, formState, setValue, trigger, reset, getValues } = useForm({
-            // resolver: !props.isEdit && yupResolver(schema),
             mode:"onChange",   
     });
+
+    const [fileUrls, setFileUrls] = useState(["", "", ""]);
+
+    const [ address, setAddress] = useState("")
+    const [ zipcode, setZipcode] = useState("")
+    const [ addressDetail, setAddressDetail] = useState("")
+
+    // 모달 주소입력
+    const [isOpen, setIsOpen] = useState(false);
+
+    const showModal = () => {
+      setIsOpen(true);
+    };
+
+    const handleOk = () => {
+      setIsOpen(false);
+    };
+
+    const handleCancel = () => {
+      setIsOpen(false);
+    };
+    const handleComplete = (data:any) =>{
+      setIsOpen(false);
+      setAddress(data.address)
+      setZipcode(data.zonecode)
+  }
+
+  const onChangeAddressDetail = (event) => {
+    setAddressDetail(event.target.value);
+  };
+
 
     const onChangeContents = (value: any) =>{
         setValue("contents", value === "<p><br></p>" ? "" : value);
@@ -52,7 +79,6 @@ export default function MarketWrite(props){
       setHashArr([...hashArr, "#" + event.target.value]);
       event.target.value = "";
     }
-    console.log(event.target.value);
   };
 
   // 등록하기
@@ -70,21 +96,18 @@ export default function MarketWrite(props){
           tags: hashArr,
           images: fileUrls,
           useditemAddress: {
-              zipcode: data.zipcode,
-              address: data.address,
-              addressDetail: data.addressDetail,
+              zipcode,
+              address,
+              addressDetail,
             },
         }
       }
-    })
-     console.log(result)     
+    })  
      Modal.success({
                 content: '상품 등록 성공!',
-            });
-          
+            }); 
     router.push(`/market/${result.data.createUseditem._id}`);
-    console.log(result);
-          
+
   }catch(error){
         if(error instanceof Error)
         Modal.error({
@@ -119,6 +142,8 @@ export default function MarketWrite(props){
     if (data.price) updateUseditemInput.price = Number(data.price);
     if (isChangedFiles) updateUseditemInput.images = fileUrls;
     if (hashArr) updateUseditemInput.tags = hashArr;
+    if (address) updateUseditemInput.useditemAddress.address = address; 
+    if (zipcode) updateUseditemInput.useditemAddress.zipcode = zipcode; 
 
 
     try {
@@ -173,6 +198,16 @@ export default function MarketWrite(props){
         reset={reset}
         onClickCancel={onClickCancel}
         onClickUpdate={onClickUpdate}
+
+        isOpen={isOpen}
+        showModal={showModal}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+        handleComplete={handleComplete}
+
+        onChangeAddressDetail={onChangeAddressDetail}
+        address={address}
+        zipcode={zipcode}
         />
     )
 }

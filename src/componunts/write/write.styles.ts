@@ -12,6 +12,7 @@ border-bottom: 3px solid #555555;
 `
 export const Container=styled.div`
 width: 1300px;
+padding-top: 20px;
 `
 export const Block=styled.div`
 margin: 10px;
@@ -36,9 +37,16 @@ font-size: 20px;
 font-weight: 600;
 padding-bottom: 380px;
 `
-export const Location= styled.div`
-
+export const Label2=styled.div`
+font-size: 20px;
+font-weight: 600;
+padding: 12px 0 0 10px;
 `
+export const Location= styled.div`
+padding: 20px 0 20px 0 ;
+display: flex;
+`
+
 export const Btag= styled.div`
 display: flex;
 `
@@ -48,7 +56,7 @@ display: flex;
 padding-left: 190px;
 `
 export const Address= styled.input`
-width: 570px;
+width: 840px;
 height: 56px;
 border: none;
 padding: 10px;
@@ -82,6 +90,7 @@ export const ZipBtn= styled.button`
     background: black;
     color: white;
     margin-left: 20px;
+    cursor: pointer;
 `
 export const ZipBox= styled.div`
 padding-top: 20px;
@@ -95,6 +104,7 @@ background-color: black;
 color: white;
 border: none;
 font-size: 20px;
+cursor: pointer;
 `
 export const CancelBtn= styled.button`
 width: 195px;
@@ -103,6 +113,7 @@ margin-left: 20px;
 background-color:#FFE004 ;
 border: none;
 font-size: 20px;
+cursor: pointer;
 `
 export const BtnBox= styled.div`
 padding-top: 30px;
@@ -111,5 +122,4 @@ align-items: center;
 justify-content: center;
 border-top: 3px solid #555555;
 margin-top: 50px;
-
 `

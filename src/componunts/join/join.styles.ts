@@ -71,6 +71,7 @@ border: none;
 font-size: 20px;
 font-weight: 600;
 margin-right: 20px;
+cursor: pointer;
 `
 export const CBtn=styled.button`
 margin: 30px 0 30px 0;
@@ -83,6 +84,7 @@ font-size: 20px;
 font-weight: 600;
 margin-right: 20px;
 color: white;
+cursor: pointer;
 `
 export const JoinBox=styled.div`
 padding-top: 20px;

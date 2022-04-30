@@ -35,6 +35,7 @@ align-items: center;
 `
 const Charge = styled.div`
 padding-left: 40px;
+cursor: pointer;
 `
 const Point = styled.span`
 font-weight: 700;

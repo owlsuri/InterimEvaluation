@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
-
+padding: 100px;
 `
 export const Header = styled.div`
 display: flex;
@@ -11,6 +11,11 @@ padding: 10px;
 export const ImgBox = styled.div`
 
 `
+export const Pin = styled.img`
+width: 25px;
+padding-bottom: 10px;
+`
+
 export const Img = styled.img`
 
 height: 480px;
@@ -87,6 +92,7 @@ border: none;
 color: white;
 font-size: 30px;
 margin-right: 10px;
+cursor: pointer;
 `
 export const Basket = styled.button`
 width: 312px;
@@ -96,6 +102,7 @@ border: none;
 color: white;
 font-size: 30px;
 margin-right: 10px;
+cursor: pointer;
 `
 export const Buy = styled.button`
 width: 312px;
@@ -104,6 +111,7 @@ background: #000000;
 border: none;
 color: white;
 font-size: 30px;
+cursor: pointer;
 `
 export const Body = styled.div`
 display: flex;
@@ -126,8 +134,9 @@ border-bottom: 3px solid #555555;
 padding-bottom: 20px;
 margin-bottom: 20px;
 `
-export const Subtitle = styled.div`
+export const Subtitle = styled.span`
 font-size: 24px;
+padding-left: 10px;
 `
 export const Detail = styled.div`
 width: 900px;
@@ -143,7 +152,7 @@ font-size: 20px;
 padding: 20px;
 `
 export const Map = styled.div`
-
+padding-top: 20px;
 `
 export const CommentBox = styled.div`
 border-left: 1px solid #555555;
@@ -180,6 +189,7 @@ width: 360px;
 height: 147px;
 border: none;
 background: #E9E9E9;
+padding: 10px;
 `
 export const CommentBtn = styled.button`
 width: 116px;
@@ -190,6 +200,7 @@ font-size: 20px;
 font-weight: 700;
 margin-left: 242px;
 margin-top: 10px;
+cursor: pointer;
 `
 export const CommentShow = styled.div`
 margin-bottom: 20px;

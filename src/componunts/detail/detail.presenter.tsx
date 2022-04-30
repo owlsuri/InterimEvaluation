@@ -7,8 +7,10 @@ import CommentWrite from '../CommentWrite/commentWrite.container';
 import CommentRead from '../CommentList/commentList.container';
 import { useState } from 'react';
 import MarketWrite from '../write/write.container';
+import KakaoMapFetchPage from '../../commons/kakaoMapFetch/kakaomap.container';
 
 export default function UsedItemReadUI(props){
+    console.log(props.data?.fetchUseditem.useditemAddress.address)
 
     const [isEdit, setIsEdit]=useState(false)
 
@@ -65,8 +67,11 @@ export default function UsedItemReadUI(props){
                     }}/>)}
                     </S.ContentDetail>
                     <S.Location>
+                        <S.Pin src='/pin.png' />
                         <S.Subtitle>거래지역</S.Subtitle>
-                        <S.Map>여기 지도넣기</S.Map>
+                        <S.Map>
+                            <KakaoMapFetchPage data={props.data}/>
+                        </S.Map>
                     </S.Location>
                 </S.Detail>
                 <S.CommentBox>                    

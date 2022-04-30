@@ -15,10 +15,11 @@ margin-top: 30px;
 const Logo = styled.div`
 width: 300px;
 padding-left: 100px;
+cursor: pointer;
 `
 
 const Sell = styled.div`
-padding-right: 50px;
+padding-right: 60px;
 width: 160px;
 display: flex;
 align-items: center;

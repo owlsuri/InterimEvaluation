@@ -57,7 +57,7 @@ export default function KakaoMapFetchPage(props){
                   });
       });
       }
-    },[props.data?.fetchUseditem.useditemAddress.address])
+    },[props.data?.fetchUseditem?.useditemAddress?.address])
 
     return (
      <KakaoMapFetchUI />

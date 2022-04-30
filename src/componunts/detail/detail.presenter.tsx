@@ -10,7 +10,6 @@ import MarketWrite from '../write/write.container';
 import KakaoMapFetchPage from '../../commons/kakaoMapFetch/kakaomap.container';
 
 export default function UsedItemReadUI(props){
-    console.log(props.data?.fetchUseditem.useditemAddress.address)
 
     const [isEdit, setIsEdit]=useState(false)
 

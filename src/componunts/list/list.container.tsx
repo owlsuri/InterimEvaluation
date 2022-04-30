@@ -2,6 +2,8 @@
 
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { getDate } from "../../commons/libraries/utils";
 import MarketListUI from "./list.presenter";
 import { FETCH_USED_ITEMS } from "./list.queries";
 
@@ -27,11 +29,16 @@ export default function MarketList(){
         ],
         };
     },
-    });
+});
 };
-    const onClickToDetail = (event) => {
-        router.push(`/market/${event.currentTarget.id}`)
-    }
+
+
+const onClickToDetail = (event) => {
+    router.push(`/market/${event.currentTarget.id}`)
+    
+}
+
+
 
     return(
         <MarketListUI

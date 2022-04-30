@@ -74,6 +74,10 @@ const onClickLogin = async() => {
     const onClickToJoin =()=>{
         router.push("/join")
     }
+
+    const onClickLogo =()=>{
+        router.push("/")
+    }
     return(
         <LoginUI 
         onClickToJoin={onClickToJoin}
@@ -82,6 +86,7 @@ const onClickLogin = async() => {
         onClickLogin={onClickLogin}
         emailError={emailError}
         passwordError={passwordError}
+        onClickLogo={onClickLogo}
         />
     )
 

@@ -3,7 +3,7 @@ export default function CommentWriteUI(props){
 
     return(
         <S.CommentInput>
-            <S.Title>댓글</S.Title>
+            <S.Title> {props.isEdit ? "" : "댓글"}</S.Title>
             <S.CommentSay type="text" 
                             maxlength={100} 
                             value={props.contents || props.el?.contents || ""}

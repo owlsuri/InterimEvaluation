@@ -12,6 +12,7 @@ align-items: center;
 `
 export const Logo=styled.img`
  padding-left: 50px;
+ cursor: pointer;
 `
 export const Container=styled.div`
 width: 742px;

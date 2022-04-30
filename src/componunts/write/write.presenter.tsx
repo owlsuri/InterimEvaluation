@@ -93,7 +93,7 @@ export default function MarketWriteUI(props){
                           value={props.zipcode} readOnly/>
                         <S.ZipBtn type="button" onClick={props.showModal}>우편번호 검색</S.ZipBtn>
                         </S.ZipBox>
-                        <S.Address type="text" id="address" value={props.address || ""} readOnly/>
+                        <S.Address type="text" id="address" value={props.address || props.data?.fetchUseditem.useitemAddress?.address ||""} readOnly/>
                         <S.Address type="text" id="addressDetail" onChange={props.onChangeAddressInputs}/>
                     </div>
                 </S.AddressBox>

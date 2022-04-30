@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client"
+import { gql, useMutation, useQuery } from "@apollo/client"
 import styled from "@emotion/styled"
 import { Modal } from "antd"
 import { isPunctuatorTokenKind } from "graphql/language/lexer"
@@ -6,6 +6,7 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import PointPaymentPage from "../../../componunts/Point/inedex"
 import "antd/dist/antd.css";
+import Head from 'next/head'
 
 const Wrapper = styled.div`
     display: flex;
@@ -48,6 +49,38 @@ color: white;
 text-align: center;
 border-radius: 30px;
 `
+const SelectTitle = styled.div`
+font-size: 20px;
+font-weight: 700;
+text-align: center;
+padding-bottom: 20px;
+`
+const Drop = styled.select`
+width: 460px;
+height: 55px;
+padding: 10px;
+border: none;
+border-bottom: 2px solid black ;
+`
+const Option = styled.option`
+width: 460px;
+height: 55px;
+padding: 10px;
+font-size: 20px;
+`
+const ChargeBtn = styled.option`
+width: 460px;
+height: 51px;
+background: #BDBDBD;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 10px;
+margin-top: 20px;
+color: white;
+cursor: pointer;
+`
+
 const FETCH_USER_LOGGED_IN=gql`
     query fetchUserLoggedIn{
         fetchUserLoggedIn{
@@ -60,8 +93,36 @@ const FETCH_USER_LOGGED_IN=gql`
         }
     }
 `
-    
+// 충전하기
+export const CREATE_POINT_TRANSACTION_OF_LOADING = gql`
+  mutation createPointTransactionOfLoading($impUid: ID!) {
+    createPointTransactionOfLoading(impUid: $impUid) {
+      _id
+      impUid
+      amount
+      balance
+    }
+  }
+`;
 
+export const FETCH_POINT_TRANSACTIONS_OF_LOADING = gql`
+    query fetchPointTransactionsOfLoading($search: String, $page: Int){
+      fetchPointTransactionsOfLoading(search: $search, page: $page){
+        _id
+        impUid
+        amount
+        balance
+        user {
+          email
+          name
+        }
+        createdAt
+      }
+    }
+`
+declare const window: typeof globalThis & {
+    IMP:  any
+}
 
 export default function LayoutHeader(){
 
@@ -70,7 +131,13 @@ export default function LayoutHeader(){
 
     const { data } = useQuery(FETCH_USER_LOGGED_IN)
 
-    console.log(data)
+    // 장바구니 상품
+  const [basketItems, setBasketItems] = useState([]);
+
+  useEffect(() => {
+    const baskets = JSON.parse(localStorage.getItem("baskets") || "[]");
+    setBasketItems(baskets);
+  }, []);
 
     const onClicktoLogin = () => {
         router.push('/login')
@@ -84,38 +151,99 @@ export default function LayoutHeader(){
         
     }
 
+    // 충전모달
     const onToggleModal = () => {
         setIsOpen(true)
     }
 
-    // 장바구니 상품
-  const [basketItems, setBasketItems] = useState([]);
+    const handleOk = () => {
+      setIsOpen(false);
+    };
+  
+    const handleCancel = () => {
+      setIsOpen(false);
+    };
 
-  useEffect(() => {
-    const baskets = JSON.parse(localStorage.getItem("baskets") || "[]");
-    setBasketItems(baskets);
-  }, []);
+    const [amount, setAmount] = useState(0)
+    
+    const onChangeOption = (event) => {
+      let value = Number(event.target.value)
+      setAmount(value)
+    };
 
-   const showModal = () => {
-    setIsOpen(true);
-  };
+     const [ createPointTransactionOfLoading ] = useMutation(CREATE_POINT_TRANSACTION_OF_LOADING)
 
-  const handleOk = () => {
-    setIsOpen(false);
-  };
 
-  const handleCancel = () => {
-    setIsOpen(false);
-  };
+    // 충전하기
+    const requestPay = () => {        
+        const IMP = window.IMP; // 생략 가능
+        IMP.init("imp49910675"); // Example: imp00000000
+        
+      // IMP.request_pay(param, callback) 결제창 호출
+      IMP.request_pay({ // param
+        pg: "html5_inicis",
+        pay_method: "card",
+        // merchant_uid: "ORD20180131-0000011", 중복되면 안됨 없으면 랜덤으로 생성됨
+        name: "seoulOwlPoint",
+        amount: amount,
+        buyer_email: "suri@suri.com",
+        buyer_name: "수리",
+        buyer_tel: "010-4242-4242",
+        buyer_addr: "코드캠프",
+        buyer_postcode: "01181",
+        m_redirect_url:'http:localhost:3000/market'
+      }, 
+       (rsp:any) => { // callback
+        if (rsp.success) {
+          // 결제 성공 시 로직,
+            try{
+                const point = createPointTransactionOfLoading({
+                    variables : {
+                        impUid : rsp.imp_uid,
+                    }
+                })
+                console.log(point)
+                Modal.success({ content: "포인트 충전이 완료되었습니다!" });
+                router.back()
+            } catch(error){
+            if(error instanceof Error)
+                Modal.error({ content: error.message });
+            }
+          console.log(rsp)
+          // 백엔드에 결제 관련 데이터 넘겨주기(-> 뮤테이션 실행하기)
+          // ex. createTransactionOfLoading
+        } else {
+          // 결제 실패 시 로직,
+          alert("결제에 실패했습니다. 다시 시도해주세요.")
+        }
+      });
+    }
+
+
 
     return(
-            <Wrapper>
+         <Wrapper>
+         <Head>
+            {/* <!-- jQuery --> */}
+            <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+            {/* <!-- iamport.payment.js --> */}
+            <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+
+        </Head>
           {isOpen && (
           <Modal visible={isOpen} onOk={handleOk} onCancel={handleCancel}>
-            <PointPaymentPage data={data} />
+            <SelectTitle>충전하실 금액을 선택해주세요!</SelectTitle>
+            <Drop id="option" onChange={onChangeOption}>                                        
+                <Option selected disabled>포인트 선택</Option>
+                <Option value="100">100</Option>
+                <Option value="500">500</Option>
+                <Option value="2000">2,000</Option>
+                <Option value="5000">5,000</Option>
+            </Drop>
+            <ChargeBtn onClick={requestPay}>충전하기</ChargeBtn>
           </Modal>
         )}
-            <Label onClick={onClicktoLogin}>{data?.fetchUserLoggedIn.email ? (
+            <Label>{data?.fetchUserLoggedIn.email ? (
           <Container>
             <div>
               {data?.fetchUserLoggedIn.name} 님의 포인트{" "}
@@ -126,8 +254,8 @@ export default function LayoutHeader(){
           </Container>
         ) : (
           <>
-            <div onClick={onClicktoLogin}>로그인</div>
-            <div onClick={onClicktoJoin}>회원가입</div>
+            <Charge onClick={onClicktoLogin}>로그인</Charge>
+            <Charge onClick={onClicktoJoin}>회원가입</Charge>
           </>
         )}</Label>
                 <Basket>

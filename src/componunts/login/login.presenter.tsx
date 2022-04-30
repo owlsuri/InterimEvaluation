@@ -5,7 +5,7 @@ export default function LoginUI(props){
     return(
         <S.Wrapper>
             <S.Header>
-                <S.Logo src="/whitelogo 1.png"/>
+                <S.Logo onClick={props.onClickLogo} src="/whitelogo 1.png"/>
             </S.Header>
             <S.Container>
                 <S.Title>

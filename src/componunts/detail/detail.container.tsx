@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { Modal } from "antd";
 import { useRouter } from "next/router";
 import UsedItemReadUI from "./detail.presenter";
-import { DELETE_USEDITEM, FETCH_USEDITEM_QUESTIONS, FETCH_USED_ITEM, FETCH_USER_LOGGED_IN, TOGGLE_USEDITEM_PICK } from "./detail.queries";
+import { CREATE_POINT_TRANSACTION_OF_BUYING_AND_SELLING, DELETE_USEDITEM, FETCH_USEDITEM_QUESTIONS, FETCH_USED_ITEM, FETCH_USER_LOGGED_IN, TOGGLE_USEDITEM_PICK } from "./detail.queries";
 import "antd/dist/antd.css";
 import { useState } from "react";
 import { useAuth } from "../../commons/hooks/useAuth";
@@ -21,6 +21,8 @@ export default function UsedItemRead(){
     const {data:commentData} = useQuery(FETCH_USEDITEM_QUESTIONS,{
          variables:{ useditemId: String(router.query.useditemId)  }
     })
+
+    const [createPointTransactionOfBuyingAndSelling] = useMutation(CREATE_POINT_TRANSACTION_OF_BUYING_AND_SELLING)
 
     const [toggleUsedItemPick] = useMutation(TOGGLE_USEDITEM_PICK);
     
@@ -88,6 +90,33 @@ export default function UsedItemRead(){
       }
     }
 
+    // 결제하기
+    const onClickPay = async() => {
+      if(userData?.fetchUserLoggedIn?.userPoint.amount >= data?.fetchUseditem?.price){
+         try{
+                const pay = await createPointTransactionOfBuyingAndSelling({
+                    variables : {
+                        useritemId : router.query.useditemId,
+                    },
+                    refetchQueries: [
+                    {
+                      query: FETCH_USER_LOGGED_IN,
+                      variables: { useditemId: router.query.useditemId },
+                    },
+                  ]
+                })
+                console.log(pay)
+                Modal.success({ content: "결제가 완료되었습니다!" });
+            } catch(error){
+            if(error instanceof Error)
+                Modal.error({ content: error.message });
+            }
+           } else {
+        Modal.error({ content: "충전을 먼저 해주세요" });
+        router.back()
+      }
+    }
+
     return(
         <>
         <UsedItemReadUI 
@@ -98,6 +127,7 @@ export default function UsedItemRead(){
         commentData={commentData}
         onClickMoveEdit={onClickMoveEdit}
         onClickDelete={onClickDelete}
+        onClickPay={onClickPay}
         />
         </>
     )

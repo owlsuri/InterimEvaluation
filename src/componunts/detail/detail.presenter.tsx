@@ -42,7 +42,7 @@ export default function UsedItemReadUI(props){
                     <S.Btns>
                         <S.Pick onClick={props.onClickPick}>♡찜{props.data?.fetchUseditem.pickedCount}</S.Pick> 
                         <S.Basket onClick={props.onClickBasket(props.data?.fetchUseditem)}>장바구니</S.Basket>
-                        <S.Buy>바로구매</S.Buy>
+                        <S.Buy onClick={props.onClickPay}>바로구매</S.Buy>
                     </S.Btns>
                 </S.InfoBox>
             </S.Header> 

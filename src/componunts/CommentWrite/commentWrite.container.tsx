@@ -24,7 +24,7 @@ export default function CommentWrite(props){
         setContents(event.target.value);
     };
 
-        const onClickAsk = async() => {
+    const onClickAsk = async() => {
         try{
         const result = await createUseditemQuestion({
             variables:{

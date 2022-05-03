@@ -32,7 +32,6 @@ export default function KakaoMapFetchPage(props){
 
             // 주소로 좌표를 검색합니다
             geocoder.addressSearch(props.data?.fetchUseditem.useditemAddress.address, function(result, status) {
-              console.log(props.address)
 
                 // 정상적으로 검색이 완료됐으면 
                 if (status === window.kakao.maps.services.Status.OK) {

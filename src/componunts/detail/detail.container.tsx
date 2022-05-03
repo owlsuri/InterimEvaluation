@@ -6,6 +6,8 @@ import { CREATE_POINT_TRANSACTION_OF_BUYING_AND_SELLING, DELETE_USEDITEM, FETCH_
 import "antd/dist/antd.css";
 import { useState } from "react";
 import { useAuth } from "../../commons/hooks/useAuth";
+import { useRecoilState } from "recoil";
+import { basketaaa } from "../../commons/store";
 
 export default function UsedItemRead(){
 
@@ -27,7 +29,8 @@ export default function UsedItemRead(){
     const [toggleUsedItemPick] = useMutation(TOGGLE_USEDITEM_PICK);
     
     // 장바구니에 담기
-    const [isLoad, setIsLoad] = useState(false)
+    // const [isLoad, setIsLoad] = useState(false)
+    const [basketItems, setBasketItems] = useRecoilState(basketaaa);
 
     const onClickBasket = (el) => () =>{
     const baskets = JSON.parse(localStorage.getItem("baskets") || "[]")
@@ -43,7 +46,7 @@ export default function UsedItemRead(){
     const {__typename, ...newEl} = el;
         baskets.push(newEl)
         localStorage.setItem("baskets", JSON.stringify(baskets))
-        setIsLoad(true)
+        setBasketItems(baskets)
 
         Modal.success({ content: "장바구니에 담았습니다." });
 

@@ -1,11 +1,14 @@
 // 카카오지도
 import { useEffect, useState } from 'react'
+import { CLIENT_RENEG_WINDOW } from 'tls'
 import KakaoMapUI from './kakaomap.presenter'
 
 declare const window: typeof globalThis & {
     kakao: any
 }
 export default function KakaoMapPage(props){
+
+    // console.log(props.data?.fetchUseditem.useditemAddress?.address)
 
     useEffect(()=>{
 
@@ -26,24 +29,29 @@ export default function KakaoMapPage(props){
             
             // 주소-좌표 변환 객체를 생성합니다
             let geocoder = new window.kakao.maps.services.Geocoder();
+            
 
+            console.log(props.address)
+            console.log(props.data?.fetchUseditem.useditemAddress?.address)
             // 주소로 좌표를 검색합니다
-            geocoder.addressSearch(props.address, function(result, status) {
-              console.log(props.address)
+            geocoder.addressSearch(props.address || props.data?.fetchUseditem.useditemAddress?.address, function(result, status) {
 
                 // 정상적으로 검색이 완료됐으면 
                 if (status === window.kakao.maps.services.Status.OK) {
 
-                    var coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+                    const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
 
                     // 결과값으로 받은 위치를 마커로 표시합니다
-                    var marker = new window.kakao.maps.Marker({
+                    const marker = new window.kakao.maps.Marker({
                         map: map,
                         position: coords
                     });
 
+                    // console.log(coords)
+                    // props.setGps(coords)
+
                     // 인포윈도우로 장소에 대한 설명을 표시합니다
-                          var infowindow = new window.kakao.maps.InfoWindow({
+                          const infowindow = new window.kakao.maps.InfoWindow({
                               content: '<div style="width:150px;text-align:center;padding:6px 0;">거래장소</div>'
                           });
                           infowindow.open(map, marker);
@@ -54,7 +62,7 @@ export default function KakaoMapPage(props){
                   });
       });
       }
-    },[props.address])
+    },[props.address, props.data?.fetchUseditem.useditemAddress?.address])
 
     return (
      <KakaoMapUI />

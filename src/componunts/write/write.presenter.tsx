@@ -8,7 +8,7 @@ import { Modal } from 'antd';
 import DaumPostcode from 'react-daum-postcode';
 
 export default function MarketWriteUI(props){
-    
+
         useEffect(() => {
         props.reset({ contents: props.data?.fetchUseditem.contents });
     }, [props.data]);
@@ -82,6 +82,9 @@ export default function MarketWriteUI(props){
                 address={props.address} 
                 zipcode={props.zipcode}
                 onChangeAddressDetail={props.onChangeAddressDetail}
+                data={props.data}
+                setAddress={props.setAddress}
+                setGps={props.setGps}
                 />
             
 
@@ -90,10 +93,10 @@ export default function MarketWriteUI(props){
                         <S.Label>주소</S.Label>
                         <S.ZipBox>
                         <S.Zip type="text" id="zipcode"
-                          value={props.zipcode} readOnly/>
+                          value={props.zipcode || props.data?.fetchUseditem.useditemAddress.zipcode || ""} readOnly/>
                         <S.ZipBtn type="button" onClick={props.showModal}>우편번호 검색</S.ZipBtn>
                         </S.ZipBox>
-                        <S.Address type="text" id="address" value={props.address || props.data?.fetchUseditem.useitemAddress?.address ||""} readOnly/>
+                        <S.Address type="text" id="address" defaultValue={props.address || props.data?.fetchUseditem.useditemAddress?.address ||""} readOnly/>
                         <S.Address type="text" id="addressDetail" onChange={props.onChangeAddressInputs}/>
                     </div>
                 </S.AddressBox>
@@ -113,7 +116,7 @@ export default function MarketWriteUI(props){
                 </S.Location>
             <S.BtnBox>
                 <S.SubmitBtn onClick={props.onClickSubmit}> {props.isEdit ? "수정" : "등록"}</S.SubmitBtn>
-                <S.CancelBtn onClick={props.onClickCancel}>취소</S.CancelBtn>
+                <S.CancelBtn type="button" onClick={props.onClickCancel}>취소</S.CancelBtn>
             </S.BtnBox>
         </S.Container>
         </form>

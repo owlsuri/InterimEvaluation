@@ -10,39 +10,6 @@ import { basket } from '../../commons/store';
 
 export default function MarketListUI(props){
 
-  const [basketItems, setBasketItems] = useRecoilState(basket);
-
-      const onClickToday = (el) => () =>{
-      // 불러오기
-       const baskets = JSON.parse(
-         localStorage.getItem(getDate(new Date())) || "[]"
-       );
-       console.log(baskets)
-         
-         const temp = baskets.filter((basketEl) => basketEl._id === el._id);
-             if (temp.length === 1) {
-               return;
-             }
-
-    
-       // 담기
-        const { __typename, ...newEl } = el;
-        baskets.push(newEl);
-        localStorage.setItem(getDate(new Date()), JSON.stringify(baskets));
-
-        const newBaskets = JSON.parse(
-            localStorage.getItem(getDate(new Date())) || "[]");
-            setBasketItems(newBaskets);
-        };
-        
-
-        useEffect(() => {
-            const baskets = JSON.parse(
-              localStorage.getItem(getDate(new Date())) || "[]"
-            );
-            setBasketItems(baskets);
-        }, []);
-
     return(
        <S.Wrapper>
            <InfiniteScroll
@@ -53,11 +20,11 @@ export default function MarketListUI(props){
            <S.Container>
                 {props.data?.fetchUseditems.map((el:any) => (
                   <S.Row key={el._id}  id={el._id} 
-                          onClick={props.onClickToDetail}>
+                          onClick={props.onClickToDetail(el)}>
                       <S.Info>
                         <div>
                             <S.Img  
-                              onClick={onClickToday(el)}
+                              // onClick={onClickToday(el)}
                               id={el._id}
                               src={
                                 el.images[0]

@@ -1,52 +1,61 @@
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
+import { getDate } from "../../libraries/utils";
 import { basket } from "../../store";
 
 const Wrapper=styled.div`
     
 `
 const Title=styled.div`
-padding-top: 20px;
+    padding-top: 15px;
     font-size: 16px;
     font-weight: 600;
     text-align: center;
+    width: 150px;
 `
 const Boxes=styled.div`
-padding: 20px 35px 30px 35px;
+padding: 20px 20px 0px 35px;
 `
 const Box=styled.img`
 width: 85px;
 height: 85px;
 background-color: gray;
-margin-bottom: 15px;
+cursor: pointer;
 `
 
 export default function Today(){
-
+    
+    const router = useRouter()
     const [basketItems, setBasketItems] = useRecoilState(basket);
 
-    const router = useRouter()
+    useEffect(() => {
+        const aaa = JSON.parse(localStorage.getItem("watch") || "[]");
+        const bbb = aaa.reverse().slice(0, 3);
+        console.log(bbb);
+        setBasketItems(bbb);
+    }, []);
 
-    const onClickDetail = () => {
-
+    const onClickToDetail = (event) => {
+        router.push(event.target.id)
     }
 
-
-    return(
+    return(       
         <Wrapper>
-            <Title>최근 본 상품</Title>
-            <Boxes>
-                <Box onClick={onClickDetail} src={basketItems[basketItems.length-1]?.images[0] !== "" 
-                        ? `https://storage.googleapis.com/${basketItems[basketItems.length-1]?.images[0]}`
-                        : `/noimage.png` } />
-                <Box src={basketItems[basketItems.length-2]?.images[0] !== "" 
-                        ? `https://storage.googleapis.com/${basketItems[basketItems.length-2]?.images[0]}`
-                        : `/noimage.png` } />
-                <Box src={basketItems[basketItems.length-3]?.images[0] !== ""
-                        ? `https://storage.googleapis.com/${basketItems[basketItems.length-3]?.images[0]}`
-                        :  `/noimage.png` } />
-            </Boxes>
+            <Title>최근 본 상품</Title> 
+            {basketItems.map((el, i)=>(
+                <Boxes key={i} id={el._id}>
+                   <Box 
+                   onClick={onClickToDetail}
+                   id={el._id}
+                  src= { 
+                      el.images[0] ?
+                    `https://storage.googleapis.com/${el.images[0]}`
+                    :  "/noimage.png"
+                    }/>
+                </Boxes>                
+            ))}
         </Wrapper>
     )
 }

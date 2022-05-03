@@ -8,7 +8,7 @@ import PointPaymentPage from "../../../componunts/Point/inedex"
 import "antd/dist/antd.css";
 import Head from 'next/head'
 import { useRecoilState } from "recoil"
-import { accessTokenState } from "../../store"
+import { accessTokenState, basketaaa } from "../../store"
 
 const Wrapper = styled.div`
     display: flex;
@@ -134,7 +134,7 @@ export default function LayoutHeader(){
     const { data } = useQuery(FETCH_USER_LOGGED_IN)
 
     // 장바구니 상품
-  const [basketItems, setBasketItems] = useState([]);
+  const [basketItems, setBasketItems] = useRecoilState(basketaaa);
 
   useEffect(() => {
     const baskets = JSON.parse(localStorage.getItem("baskets") || "[]");
@@ -173,7 +173,8 @@ export default function LayoutHeader(){
 
 
     // 충전하기
-    const requestPay = () => {        
+    const requestPay = () => {   
+      setIsOpen(false)     
         const IMP = window.IMP; // 생략 가능
         IMP.init("imp49910675"); // Example: imp00000000
         
@@ -200,9 +201,8 @@ export default function LayoutHeader(){
                         impUid : rsp.imp_uid,
                     }
                 })
-                console.log(point)
                 Modal.success({ content: "포인트 충전이 완료되었습니다!" });
-                router.back()
+                
             } catch(error){
             if(error instanceof Error)
                 Modal.error({ content: error.message });
@@ -214,6 +214,7 @@ export default function LayoutHeader(){
           // 결제 실패 시 로직,
           alert("결제에 실패했습니다. 다시 시도해주세요.")
         }
+        
       });
     }
 

@@ -8,5 +8,10 @@ export const accessTokenState = atom({
 
 export const basket = atom({
     key: "basketItems", 
-    default:"", 
+    default:[], 
+})
+
+export const basketaaa = atom({
+    key: "basketaaa", 
+    default:[], 
 })

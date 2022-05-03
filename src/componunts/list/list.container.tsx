@@ -3,9 +3,12 @@
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import { getDate } from "../../commons/libraries/utils";
+import { basket } from "../../commons/store";
 import MarketListUI from "./list.presenter";
 import { FETCH_USED_ITEMS } from "./list.queries";
+import _ from "lodash";
 
 export default function MarketList(){
 
@@ -32,11 +35,23 @@ export default function MarketList(){
 });
 };
 
+const [basketItems, setBasketItems] = useRecoilState(basket);
 
-const onClickToDetail = (event) => {
+const onClickToDetail = (el)=> (event) => {
     router.push(`/market/${event.currentTarget.id}`)
-    
-}
+
+
+   const watch = JSON.parse(localStorage.getItem("watch") || "[]");
+
+    const { __typename, ...newEl } = el;
+    watch.push(newEl);
+
+    localStorage.setItem("watch", JSON.stringify(watch));
+    const ddd = _.uniqBy(watch, "_id");
+    const ccc = ddd.reverse().slice(0, 3);
+    console.log(ccc);
+    setBasketItems(ccc);      
+    }
 
 
 

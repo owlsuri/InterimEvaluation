@@ -15,11 +15,14 @@ import Today from "./today";
         display: flex;
     `
     const TodayShown=styled.div`
+        position: fixed;
         display: flex;
+        left: 1400px;
         width: 155px;
         height: 373px;
         border: 1px solid black;
         margin: 50px;
+        background-color: white;
     `
     const HIDDEN_HEADERS = [
         "/login",

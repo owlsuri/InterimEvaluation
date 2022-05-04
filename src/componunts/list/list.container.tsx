@@ -44,11 +44,11 @@ const onClickToDetail = (el)=> (event) => {
    const watch = JSON.parse(localStorage.getItem("watch") || "[]");
 
     const { __typename, ...newEl } = el;
-    watch.push(newEl);
+    watch.unshift(newEl);
 
     localStorage.setItem("watch", JSON.stringify(watch));
     const ddd = _.uniqBy(watch, "_id");
-    const ccc = ddd.reverse().slice(0, 3);
+    const ccc = ddd.slice(0, 3);
     console.log(ccc);
     setBasketItems(ccc);      
     }

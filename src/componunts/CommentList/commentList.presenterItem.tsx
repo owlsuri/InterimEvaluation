@@ -12,6 +12,8 @@ export default function CommentReadUIitem(props){
         setIsEdit(true);
     };
 
+    console.log(props.data.user)
+
     return(
         <>
         {!isEdit && (
@@ -20,7 +22,7 @@ export default function CommentReadUIitem(props){
                     <S.CUserImg></S.CUserImg>
                     <S.CUserInfo>
                         <div>
-                            <S.CUserName>{props.userData ? props.userData?.fetchUserLoggedIn.name : "loading..."}</S.CUserName>
+                            <S.CUserName>{props.el.user.name}</S.CUserName>
                             <S.CreatedAt>{getDate(props.el?.createdAt)}</S.CreatedAt>
                         </div>
                         <S.IconBox>

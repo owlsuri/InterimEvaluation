@@ -32,7 +32,7 @@ export default function Today(){
 
     useEffect(() => {
         const aaa = JSON.parse(localStorage.getItem("watch") || "[]");
-        const bbb = aaa.reverse().slice(0, 3);
+        const bbb = aaa.slice(0, 3);
         console.log(bbb);
         setBasketItems(bbb);
     }, []);

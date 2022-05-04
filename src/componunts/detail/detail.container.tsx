@@ -29,7 +29,6 @@ export default function UsedItemRead(){
     const [toggleUsedItemPick] = useMutation(TOGGLE_USEDITEM_PICK);
     
     // 장바구니에 담기
-    // const [isLoad, setIsLoad] = useState(false)
     const [basketItems, setBasketItems] = useRecoilState(basketaaa);
 
     const onClickBasket = (el) => () =>{

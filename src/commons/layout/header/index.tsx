@@ -34,7 +34,6 @@ align-items: center;
 const Container = styled.div`
 display: flex;
 align-items: center;
-
 `
 const Charge = styled.div`
 padding-left: 40px;

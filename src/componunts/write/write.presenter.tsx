@@ -84,7 +84,6 @@ export default function MarketWriteUI(props){
                 onChangeAddressDetail={props.onChangeAddressDetail}
                 data={props.data}
                 setAddress={props.setAddress}
-                setGps={props.setGps}
                 />
             
 

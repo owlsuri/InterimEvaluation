@@ -32,10 +32,7 @@ export default function MarketWrite(props){
     const [ address, setAddress] = useState("")
     const [ zipcode, setZipcode] = useState("")
     const [ addressDetail, setAddressDetail] = useState("")
-    const [gps, setGps] = useState({
-      La:0,
-      Ma:0
-    })
+
 
     // 모달 주소입력
     const [isOpen, setIsOpen] = useState(false);
@@ -213,7 +210,6 @@ export default function MarketWrite(props){
         address={address}
         zipcode={zipcode}
         setAddress={setAddress}
-        setGps={setGps}
         />
     )
 }

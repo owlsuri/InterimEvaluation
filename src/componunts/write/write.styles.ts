@@ -26,7 +26,6 @@ display: flex;
 
 width: 1100px;
 margin-left: 30px;
-
 `
 export const Label=styled.div`
 font-size: 20px;
